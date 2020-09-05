@@ -1,0 +1,18 @@
+[package]
+name = "cpptorusttopython"
+version = "0.1.0"
+authors = ["Scott Wilson <scott@propersquid.com>"]
+edition = "2018"
+
+[lib]
+name = "cpptorusttopython"
+crate-type = ["cdylib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cxx = "0.4.2"
+cpython = { version = "0.5.0", default-features = false, features = ["python27-sys"] }
+
+[build-dependencies]
+cxx-build = "0.4.2"
