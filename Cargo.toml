@@ -11,8 +11,8 @@ crate-type = ["cdylib"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cxx = "0.4.2"
+cxx = "1.0.2"
 cpython = { version = "0.5.0", default-features = false, features = ["python27-sys"] }
 
 [build-dependencies]
-cxx-build = "0.4.2"
+cxx-build = "1.0.2"

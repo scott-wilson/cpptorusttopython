@@ -1,13 +1,13 @@
 #[cxx::bridge(namespace = cpptorusttopython)]
 mod ffi {
-    extern "C" {
+    unsafe extern "C++" {
         include!("cpptorusttopython/cpp/lib.h");
 
         type Something;
 
         fn get_something() -> UniquePtr<Something>;
         fn get_something_value(something: &Something) -> i8;
-        fn set_something_value(something: &mut Something, value: i8);
+        fn set_something_value(something: Pin<&mut Something>, value: i8);
     }
 }
 
@@ -33,7 +33,7 @@ impl CSomething {
 
     fn set_value(&mut self, value: i8) {
         let mut something_guard = self.something.as_ref().lock().unwrap();
-        let something = something_guard.as_mut().unwrap();
+        let something = something_guard.pin_mut();
 
         unsafe {
             ffi::set_something_value(something, value);
@@ -41,8 +41,8 @@ impl CSomething {
     }
 }
 
-unsafe impl Send for CSomething {}
-unsafe impl Sync for CSomething {}
+unsafe impl Send for ffi::Something {}
+unsafe impl Sync for ffi::Something {}
 
 cpython::py_class!(class Something |py| {
     data value: std::cell::RefCell<CSomething>;
